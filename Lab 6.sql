@@ -8,7 +8,7 @@ from customers c, products p
 where c.city=p.city and p.city in (select p.city
 				     from products p
 				 group by p.city
-	                         order by sum(quantity) DESC 
+	                         order by count(city) DESC 
 				    limit 1
 				  )
 order by c.name ASC;
@@ -20,7 +20,7 @@ from customers c, products p
 where c.city=p.city and p.city in (select p.city
 				     from products p
 				 group by p.city
-	                         order by sum(quantity) DESC 
+	                         order by count(city)DESC 
 				    limit 2
 				  )
 order by c.name ASC;
