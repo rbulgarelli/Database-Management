@@ -38,7 +38,7 @@ order by pid ASC;
 select c.name, o.pid, o.dollars
 from customers c, orders o 
 where c.cid=o.cid
-order by o.pid ASC;
+order by o.dollars ASC;
 
 --5--
 select c.name, coalesce(sum(o.qty),0)
