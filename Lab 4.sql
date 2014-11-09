@@ -71,11 +71,8 @@ from customers
 where city != 'Dallas' 
   and city != 'Kyoto'
   and discount in (select discount 
-		   from customers 
-		   where cid in (select cid
-				 from customers
-				 where city = 'Dallas'
-				 or city = 'Kyoto'
-				 )
-		  )
+		     from customers 
+		    where city = 'Dallas'
+		       or city = 'Kyoto'
+		   )
 order by cid ASC;	 
