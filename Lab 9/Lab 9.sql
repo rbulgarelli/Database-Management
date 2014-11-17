@@ -13,7 +13,7 @@ DROP TABLE IF EXISTS teams;
 DROP TABLE IF EXISTS ageGroups;
 
 -- People --
-CREATE TABLE lab9people (
+CREATE TABLE people (
   pid           char(4) not null,
   firstName     text,
   lastName      text,
@@ -26,7 +26,7 @@ CREATE TABLE lab9people (
 
 -- Coaches --
 CREATE TABLE coaches (
-  pid     	   char(4) not null references lab9people(pid),
+  pid     	   char(4) not null references people(pid),
   yearsCoaching    Integer,
  primary key(pid)
 );        
@@ -35,7 +35,7 @@ CREATE TABLE coaches (
 -- Head Coaches --
 CREATE TABLE headCoaches (
   hid     char(4),
-  pid     char(4) not null references lab9people(pid),
+  pid     char(4) not null references people(pid),
  primary key(hid)
 );
 
@@ -43,14 +43,14 @@ CREATE TABLE headCoaches (
 -- Assitant Coaches --
 CREATE TABLE assistantCoaches (
   aid     char(4),
-  pid     char(4) not null references lab9people(pid),
+  pid     char(4) not null references people(pid),
  primary key(aid)
 );
 
 
 -- Players --
 CREATE TABLE players (
-  pid     	   char(4) not null references lab9people(pid),
+  pid     	   char(4) not null references people(pid),
   dateOfBirth      date,
  primary key(pid)
 );
