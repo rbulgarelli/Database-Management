@@ -1,7 +1,7 @@
 ﻿-- Rosemary Bulgarelli --
 -- 11/16/2014 --
 -- Lab 9: Normalization three --
--- I think I am close to having this correct --
+-- I think I am close to having this --
 
 
 DROP TABLE IF EXISTS people;
@@ -51,6 +51,7 @@ CREATE TABLE assistantCoaches (
 -- Players --
 CREATE TABLE players (
   pid     	   char(4) not null references people(pid),
+  ageGoupid	   char(4) not null references ageGroups(ageGroupsid)
   dateOfBirth      date,
  primary key(pid)
 );
