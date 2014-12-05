@@ -1,5 +1,5 @@
 ﻿CREATE TABLE people(
-   pid	   	text         NOT NULL,
+   pid	   	char(200)    NOT NULL,
    firstName	VARCHAR(200) NOT NULL,
    lastName	VARCHAR(200) NOT NULL,
    dateOfBirth  DATE	     NOT NULL,
@@ -13,41 +13,43 @@
 
 
 CREATE TABLE customer(
-   cid    text   NOT NULL,
-   pid    text   NOT NULL REFERENCES people(pid),
+   cid    char(200)   NOT NULL,
+   pid    char(200)   NOT NULL REFERENCES people(pid),
    PRIMARY KEY (cid)
 );
 
 CREATE TABLE employee(
-   eid           text        NOT NULL,
-   pid           text        NOT NULL REFERENCES people(pid),
+   eid           char(200)        NOT NULL,
+   pid           char(200)        NOT NULL REFERENCES people(pid),
    SSN           VARCHAR(9)  NOT NULL,
    DateEmployed  DATE        NOT NULL,
    PRIMARY KEY (eid)
 );
 
 CREATE TABLE employeeAssingments(
-   eid           text     NOT NULL REFERENCES employee(eid),
-   departid	 text     NOT NULL REFERENCES departments(departid),
-   jobTitleid    text     NOT NULL REFERENCES jobTitles(jobtitleid),
+   eid           char(200)     NOT NULL REFERENCES employee(eid),
+   departid	 char(200)     NOT NULL REFERENCES departments(departid),
+   jobTitleid    char(200)     NOT NULL REFERENCES jobTitles(jobtitleid),
    PRIMARY KEY (eid, departid)
 );
 
 CREATE TABLE jobTitles(
-   jobTitleid	text          NOT NULL,
+   jobTitleid	char(200)     NOT NULL,
    jobName	VARCHAR(200)  NOT NULL,
    jobDescrip   VARCHAR(200)  NOT NULL,
    PRIMARY KEY (jobTitleid)
 );
 
 CREATE TABLE departments(
-   departid	  text         NOT NULL,
+   departid	  char(200)    NOT NULL,
+   departStoreid  char(200)    NOT NULL REFERENCES departmentStores(departStoreid),
    departName	  VARCHAR(200) NOT NULL,
    PRIMARY KEY(departid)
 );
 
+
 CREATE TABLE departmentStores(
-   departStoreid    text         NOT NULL,
+   departStoreid    char(200)    NOT NULL,
    departStoreName  VARCHAR(200) NOT NULL,
    departTown       VARCHAR(200) NOT NULL,
    departState      VARCHAR(2)   NOT NULL,
@@ -57,39 +59,39 @@ CREATE TABLE departmentStores(
 );
 
 CREATE TABLE rewards(
-   cid         text      NOT NULL REFERENCES customer(cid),
+   cid         char(200)      NOT NULL REFERENCES customer(cid),
    enrollDate  DATE 	 NOT NULL,
    PRIMARY KEY(cid)
 );
 
+
 CREATE TABLE productOrders(
-   productOrderid    text   NOT NULL,
-   orderid           text   NOT NULL REFERENCES customerOrders(orderid),
-   productid	     text   NOT NULL REFERENCES products(productid),
+   productOrderid    char(200)   NOT NULL,
+   orderid           char(200)   NOT NULL REFERENCES customerOrders(orderid),
+   productid	     char(200)   NOT NULL REFERENCES products(productid),
    PRIMARY KEY(productOrderid)
 );
 
 CREATE TABLE products(
-   productid       text           NOT NULL,
-   departid        text           NOT NULL REFERENCES departments(departid),
+   productid       char(200)           NOT NULL,
+   departid        char(200)           NOT NULL REFERENCES departments(departid),
    productName     VARCHAR(200)   NOT NULL, 
-   productPriceUSD text    	 NOT NULL,
-   productSize     text	         NOT NULL,
+   productSize     text	          NOT NULL,
    productDescrip  VARCHAR(200)   NOT NULL,
    PRIMARY KEY(productid)
 );
 
 
 CREATE TABLE inventory(
-   invid        text      NOT NULL,
-   productid 	text      NOT NULL REFERENCES products(productid),
+   invid        char(200)      NOT NULL,
+   productid 	char(200)      NOT NULL REFERENCES products(productid),
    quantity     INTEGER   NOT NULL,
    PRIMARY KEY(invid)
 );
 
 CREATE TABLE productsSupplied(
-   supplyid          text      NOT NULL REFERENCES suppliers(supplyid),
-   invid             text      NOT NULL REFERENCES inventory(invid),
+   supplyid          char(200)      NOT NULL REFERENCES suppliers(supplyid),
+   invid             char(200)      NOT NULL REFERENCES inventory(invid),
    datePurchased     DATE      NOT NULL,
    quantityPurchased INTEGER   NOT NULL,
    totalPriceUSD     INTEGER   NOT NULL,
@@ -97,7 +99,7 @@ CREATE TABLE productsSupplied(
 );
 
 CREATE TABLE suppliers(
-   supplyid          text         NOT NULL,
+   supplyid          char(200)         NOT NULL,
    supplierFirstName VARCHAR(200) NOT NULL,
    supplierLastName  VARCHAR(200) NOT NULL,
    supplierPhoneNum  VARCHAR(12)  NOT NULL,
@@ -106,12 +108,12 @@ CREATE TABLE suppliers(
 );
 
 CREATE TABLE customerOrders(
-   orderid   text NOT NULL,
-   cid       text NOT NULL REFERENCES customers(cid),
+   orderid   char(200) NOT NULL,
+   cid       char(200) NOT NULL REFERENCES customer(cid),
    payMethod text NOT NULL CHECK (payMethod IN ('Cash', 'Credit', 'Check', 'Debit')),
+   orderDate DATE   NOT NULL,
    PRIMARY KEY(orderid)
 );
-
 
 --People--
 INSERT INTO people( pid, firstName, lastName, dateOfBirth, address, zipCode, phoneNumber, email, gender)
@@ -269,31 +271,31 @@ ORDER BY orderid ASC
 
 --Employee Assingnment --
 INSERT INTO employeeAssingments(eid, departid, jobTitleid)
-   VALUES('e01','dp1','j01');
+   VALUES('e01','dp01','j01');
 
 INSERT INTO employeeAssingments(eid, departid, jobTitleid)
-   VALUES('e02','dp3','j03');
+   VALUES('e02','dp03','j03');
 
 INSERT INTO employeeAssingments(eid, departid, jobTitleid)
-   VALUES('e03','dp2','j02');
+   VALUES('e03','dp19','j02');
 
 INSERT INTO employeeAssingments(eid, departid, jobTitleid)
-   VALUES('e04','dp5','j05');
+   VALUES('e04','dp07','j05');
 
 INSERT INTO employeeAssingments(eid, departid, jobTitleid)
-   VALUES('e05','dp4','j04');
+   VALUES('e05','dp10','j04');
 
 INSERT INTO employeeAssingments(eid, departid, jobTitleid)
-   VALUES('e06','dp2','j03');
+   VALUES('e06','dp02','j03');
 
 INSERT INTO employeeAssingments(eid, departid, jobTitleid)
-   VALUES('e07','dp3','j05');
+   VALUES('e07','dp19','j05');
 
 INSERT INTO employeeAssingments(eid, departid, jobTitleid)
-   VALUES('e08','dp2','j01');
+   VALUES('e08','dp12','j01');
 
 INSERT INTO employeeAssingments(eid, departid, jobTitleid)
-   VALUES('e09','dp4','j02');
+   VALUES('e09','dp04','j02');
 
 select *
 from employeeAssingments
@@ -339,124 +341,152 @@ ORDER BY departStoreid ASC
 
 
 --Departments--   
-INSERT INTO departments(departid, departName)
-  VALUES('dp1','Mens');
+INSERT INTO departments(departid, departStoreid, departName)
+  VALUES('dp01','d01','Mens');
+INSERT INTO departments(departid, departStoreid, departName)
+  VALUES('dp02','d01','Womens');
+INSERT INTO departments(departid, departStoreid, departName)
+  VALUES('dp03','d01','Juniors');
+INSERT INTO departments(departid, departStoreid, departName)
+  VALUES('dp04','d01','Childrens');
+INSERT INTO departments(departid, departStoreid, departName)
+  VALUES('dp05','d01','Infants');
 
-INSERT INTO departments(departid, departName)
-  VALUES('dp2','Womens');
-
-INSERT INTO departments(departid, departName)
-  VALUES('dp3','Juniors');
-
-INSERT INTO departments(departid, departName)
-  VALUES('dp4','Childrens');
-
-INSERT INTO departments(departid, departName)
-  VALUES('dp5','Infants');
+INSERT INTO departments(departid, departStoreid, departName)
+  VALUES('dp06','d02','Mens');
+INSERT INTO departments(departid, departStoreid, departName)
+  VALUES('dp07','d02','Womens');
+INSERT INTO departments(departid, departStoreid, departName)
+  VALUES('dp08','d02','Juniors');
+INSERT INTO departments(departid, departStoreid, departName)
+  VALUES('dp09','d02','Childrens');
+INSERT INTO departments(departid, departStoreid, departName)
+  VALUES('dp10','d02','Infants');
+  
+INSERT INTO departments(departid, departStoreid, departName)
+  VALUES('dp11','d03','Mens');
+INSERT INTO departments(departid, departStoreid, departName)
+  VALUES('dp12','d03','Womens');
+INSERT INTO departments(departid, departStoreid, departName)
+  VALUES('dp13','d03','Juniors');
+INSERT INTO departments(departid, departStoreid, departName)
+  VALUES('dp14','d03','Childrens');
+INSERT INTO departments(departid, departStoreid, departName)
+  VALUES('dp15','d03','Infants');
+  
+INSERT INTO departments(departid, departStoreid, departName)
+  VALUES('dp16','d04','Mens');
+INSERT INTO departments(departid, departStoreid, departName)
+  VALUES('dp17','d04','Womens');
+INSERT INTO departments(departid, departStoreid, departName)
+  VALUES('dp18','d04','Juniors');
+INSERT INTO departments(departid, departStoreid, departName)
+  VALUES('dp19','d04','Childrens');
+INSERT INTO departments(departid, departStoreid, departName)
+  VALUES('dp20','d04','Infants');
 
 select*
 from departments
-ORDER BY departid ASC
+ORDER BY departName ASC
 
 
 -- Products --
-INSERT INTO products(productid, departid, productName, productPriceUSD, productSize, productDescrip)
-   VALUES('pr1','dp1','Jeans','50.00','30','Light-wash');
-INSERT INTO products(productid, departid, productName, productPriceUSD, productSize, productDescrip)
-   VALUES('pr2','dp1','Button Down','45.00','Medium','Plaid');
-INSERT INTO products(productid, departid, productName, productPriceUSD, productSize, productDescrip)
-   VALUES('pr3','dp1','Socks','7.00','Large','Colorful pattern ');
-INSERT INTO products(productid, departid, productName, productPriceUSD, productSize, productDescrip)
-   VALUES('pr4','dp1','T-shirt','20.00','Small','California text on front of shirt');
-INSERT INTO products(productid, departid, productName, productPriceUSD, productSize, productDescrip)
-   VALUES('pr5','dp1','Shoes','70.00','8','Winter Boots');
-INSERT INTO products(productid, departid, productName, productPriceUSD, productSize, productDescrip)
-   VALUES('pr6','dp1','Jacket','100.00','Extra-Large','Suit Jacket');
-INSERT INTO products(productid, departid, productName, productPriceUSD, productSize, productDescrip)
-   VALUES('pr7','dp1','Pants','35.00','Large','Khaki dress pants');
+INSERT INTO products(productid, departid, productName, productSize, productDescrip)
+   VALUES('pr01','dp01','Jeans','30','Light-wash');
+INSERT INTO products(productid, departid, productName, productSize, productDescrip)
+   VALUES('pr02','dp01','Button Down','Medium','Plaid');
+INSERT INTO products(productid, departid, productName, productSize, productDescrip)
+   VALUES('pr03','dp06','Socks','Large','Colorful pattern ');
+INSERT INTO products(productid, departid, productName, productSize, productDescrip)
+   VALUES('pr04','dp11','T-shirt','Small','California text on front of shirt');
+INSERT INTO products(productid, departid, productName, productSize, productDescrip)
+   VALUES('pr05','dp16','Shoes','8','Winter Boots');
+INSERT INTO products(productid, departid, productName, productSize, productDescrip)
+   VALUES('pr06','dp01','Jacket','Extra-Large','Suit Jacket');
+INSERT INTO products(productid, departid, productName, productSize, productDescrip)
+   VALUES('pr07','dp06','Pants','Large','Khaki dress pants');
 
-INSERT INTO products(productid, departid, productName, productPriceUSD, productSize, productDescrip)
-   VALUES('pr8','dp2','Jeans','45.00','Large','Acid-wash');
-INSERT INTO products(productid, departid, productName, productPriceUSD, productSize, productDescrip)
-   VALUES('pr9','dp2','Dress','30.00','Medium','Little Black Dress');
-INSERT INTO products(productid, departid, productName, productPriceUSD, productSize, productDescrip)
-   VALUES('pr10','dp2','Blouse','56.00','Small','Casual Pink with flowers');
-INSERT INTO products(productid, departid, productName, productPriceUSD, productSize, productDescrip)
-   VALUES('pr11','dp2','Tights','12.00','One-size','Cat print');
-INSERT INTO products(productid, departid, productName, productPriceUSD, productSize, productDescrip)
-   VALUES('pr12','dp2','Shoes','70.00','6 1/2','Studded High Heel');
-INSERT INTO products(productid, departid, productName, productPriceUSD, productSize, productDescrip)
-   VALUES('pr13','dp2','Long-Sleeve Shirt','25.00','Large','Panda pattern');
-INSERT INTO products(productid, departid, productName, productPriceUSD, productSize, productDescrip)
-   VALUES('pr14','dp2','Shoes','85.00','8','Hot Pink Hunter Boots');
+INSERT INTO products(productid, departid, productName, productSize, productDescrip)
+   VALUES('pr08','dp12','Jeans','Large','Acid-wash');
+INSERT INTO products(productid, departid, productName, productSize, productDescrip)
+   VALUES('pr09','dp07','Dress','Medium','Little Black Dress');
+INSERT INTO products(productid, departid, productName, productSize, productDescrip)
+   VALUES('pr10','dp02','Blouse','Small','Casual Pink with flowers');
+INSERT INTO products(productid, departid, productName, productSize, productDescrip)
+   VALUES('pr11','dp17','Tights','One-size','Cat print');
+INSERT INTO products(productid, departid, productName, productSize, productDescrip)
+   VALUES('pr12','dp12','Shoes','6 1/2','Studded High Heel');
+INSERT INTO products(productid, departid, productName, productSize, productDescrip)
+   VALUES('pr13','dp07','Long-Sleeve Shirt','Large','Panda pattern');
+INSERT INTO products(productid, departid, productName, productSize, productDescrip)
+   VALUES('pr14','dp02','Shoes','8','Hot Pink Hunter Boots');
 
-INSERT INTO products(productid, departid, productName, productPriceUSD, productSize, productDescrip)
-   VALUES('pr15','dp3','Tank-top','23.00','Medium','Sequence covered');
-INSERT INTO products(productid, departid, productName, productPriceUSD, productSize, productDescrip)
-   VALUES('pr16','dp3','Skirt','21.00','Large','Hot Pink skater style');
-INSERT INTO products(productid, departid, productName, productPriceUSD, productSize, productDescrip)
-   VALUES('pr17','dp3','Shirt','12.00','Small','Open back, lace top');   
-INSERT INTO products(productid, departid, productName, productPriceUSD, productSize, productDescrip)
-   VALUES('pr18','dp3','Shirt','19.00','Extra-small','Lace');
-INSERT INTO products(productid, departid, productName, productPriceUSD, productSize, productDescrip)
-   VALUES('pr19','dp3','Shoes','34.00','8 1/2','Nude 6-inch heel');
-INSERT INTO products(productid, departid, productName, productPriceUSD, productSize, productDescrip)
-   VALUES('pr20','dp3','Shirt','27.00','Medium','Polka Dotted, Black, sheer');
-INSERT INTO products(productid, departid, productName, productPriceUSD, productSize, productDescrip)
-   VALUES('pr21','dp3','Pants','15.00','Large','Cotten pajamas');
+INSERT INTO products(productid, departid, productName, productSize, productDescrip)
+   VALUES('pr15','dp18','Tank-top','Medium','Sequence covered');
+INSERT INTO products(productid, departid, productName, productSize, productDescrip)
+   VALUES('pr16','dp08','Skirt','Large','Hot Pink skater style');
+INSERT INTO products(productid, departid, productName, productSize, productDescrip)
+   VALUES('pr17','dp03','Shirt','Small','Open back, lace top');   
+INSERT INTO products(productid, departid, productName, productSize, productDescrip)
+   VALUES('pr18','dp13','Shirt','Extra-small','Lace');
+INSERT INTO products(productid, departid, productName, productSize, productDescrip)
+   VALUES('pr19','dp18','Shoes','8 1/2','Nude 6-inch heel');
+INSERT INTO products(productid, departid, productName, productSize, productDescrip)
+   VALUES('pr20','dp08','Shirt','Medium','Polka Dotted, Black, sheer');
+INSERT INTO products(productid, departid, productName, productSize, productDescrip)
+   VALUES('pr21','dp03','Pants','Large','Cotten pajamas');
 
-INSERT INTO products(productid, departid, productName, productPriceUSD, productSize, productDescrip)
-   VALUES('pr22','dp4','Jeans','26.00','Small','Regular Wash');
-INSERT INTO products(productid, departid, productName, productPriceUSD, productSize, productDescrip)
-   VALUES('pr23','dp4','Shirt','25.00','Large','Ice-cream design');
-INSERT INTO products(productid, departid, productName, productPriceUSD, productSize, productDescrip)
-   VALUES('pr24','dp4','Shirt','25.00','Extra-Large','Disney Car design');
-INSERT INTO products(productid, departid, productName, productPriceUSD, productSize, productDescrip)
-   VALUES('pr25','dp4','Shoes','35.00','4','Light-up, colorful');
-INSERT INTO products(productid, departid, productName, productPriceUSD, productSize, productDescrip)
-   VALUES('pr26','dp4','Skirt','10.00','Small','Pink-tutu');
-INSERT INTO products(productid, departid, productName, productPriceUSD, productSize, productDescrip)
-   VALUES('pr27','dp4','Backpack','15.00','One-Size','Red with superheros ');
-INSERT INTO products(productid, departid, productName, productPriceUSD, productSize, productDescrip)
-   VALUES('pr28','dp4','Shirt','5.00','Large','Black');
+INSERT INTO products(productid, departid, productName, productSize, productDescrip)
+   VALUES('pr22','dp09','Jeans','Small','Regular Wash');
+INSERT INTO products(productid, departid, productName, productSize, productDescrip)
+   VALUES('pr23','dp04','Shirt','Large','Ice-cream design');
+INSERT INTO products(productid, departid, productName, productSize, productDescrip)
+   VALUES('pr24','dp19','Shirt','Extra-Large','Disney Car design');
+INSERT INTO products(productid, departid, productName, productSize, productDescrip)
+   VALUES('pr25','dp14','Shoes','4','Light-up, colorful');
+INSERT INTO products(productid, departid, productName, productSize, productDescrip)
+   VALUES('pr26','dp09','Skirt','Small','Pink-tutu');
+INSERT INTO products(productid, departid, productName, productSize, productDescrip)
+   VALUES('pr27','dp04','Backpack','One-Size','Red with superheros ');
+INSERT INTO products(productid, departid, productName, productSize, productDescrip)
+   VALUES('pr28','dp19','Shirt','Large','Black');
 
-INSERT INTO products(productid, departid, productName, productPriceUSD, productSize, productDescrip)
-   VALUES('pr29','dp5','Jeans','23.00','2-4 years','Dark-wash');
-INSERT INTO products(productid, departid, productName, productPriceUSD, productSize, productDescrip)
-   VALUES('pr30','dp5','Pants','45.00','0-2 years','Pink');
-INSERT INTO products(productid, departid, productName, productPriceUSD, productSize, productDescrip)
-   VALUES('pr31','dp5','Onezie','16.00','0-1 years','Its a girl');
-INSERT INTO products(productid, departid, productName, productPriceUSD, productSize, productDescrip)
-   VALUES('pr32','dp5','Shirt','15.00','2-3 years','Daddys little girl');
-INSERT INTO products(productid, departid, productName, productPriceUSD, productSize, productDescrip)
-   VALUES('pr33','dp5','Dress','30.00','3-4 years','Party Dress');
-INSERT INTO products(productid, departid, productName, productPriceUSD, productSize, productDescrip)
-   VALUES('pr34','dp5','Shoes','40.00','5 infant','White Dress Shoes');
-INSERT INTO products(productid, departid, productName, productPriceUSD, productSize, productDescrip)
-   VALUES('pr35','dp5','Onezie','20.00','1-2 years','Its a boy!');
-
+INSERT INTO products(productid, departid, productName, productSize, productDescrip)
+   VALUES('pr29','dp05','Jeans','2-4 years','Dark-wash');
+INSERT INTO products(productid, departid, productName, productSize, productDescrip)
+   VALUES('pr30','dp10','Pants','0-2 years','Pink');
+INSERT INTO products(productid, departid, productName, productSize, productDescrip)
+   VALUES('pr31','dp15','Onezie','0-1 years','Its a girl');
+INSERT INTO products(productid, departid, productName, productSize, productDescrip)
+   VALUES('pr32','dp20','Shirt','2-3 years','Daddys little girl');
+INSERT INTO products(productid, departid, productName, productSize, productDescrip)
+   VALUES('pr33','dp05','Dress','3-4 years','Party Dress');
+INSERT INTO products(productid, departid, productName, productSize, productDescrip)
+   VALUES('pr34','dp10','Shoes','5 infant','White Dress Shoes');
+INSERT INTO products(productid, departid, productName, productSize, productDescrip)
+   VALUES('pr35','dp15','Onezie','1-2 years','Its a boy!');
 
 select * 
 from products
-ORDER BY departid ASC
+ORDER BY productid ASC
 
 --Inventory--
 INSERT INTO inventory(invid, productid, quantity)
-   VALUES('i01','pr1','50');
+   VALUES('i01','pr01','50');
 INSERT INTO inventory(invid, productid, quantity)
-   VALUES('i02','pr2','100');
+   VALUES('i02','pr02','100');
 INSERT INTO inventory(invid, productid, quantity)
-   VALUES('i03','pr3','45');   
+   VALUES('i03','pr03','45');   
 INSERT INTO inventory(invid, productid, quantity)
-   VALUES('i04','pr4','25');
+   VALUES('i04','pr04','25');
 INSERT INTO inventory(invid, productid, quantity)
-   VALUES('i05','pr5','100');
+   VALUES('i05','pr05','100');
 INSERT INTO inventory(invid, productid, quantity)
-   VALUES('i06','pr6','200');
+   VALUES('i06','pr06','200');
 INSERT INTO inventory(invid, productid, quantity)
-   VALUES('i07','pr7','10');
+   VALUES('i07','pr07','10');
 INSERT INTO inventory(invid, productid, quantity)
-   VALUES('i08','pr9','120');
+   VALUES('i08','pr09','120');
 INSERT INTO inventory(invid, productid, quantity)
    VALUES('i09','pr10','60');
 INSERT INTO inventory(invid, productid, quantity)
@@ -517,37 +547,37 @@ from inventory
 
 -- Products Supplies --
 INSERT INTO productsSupplied(supplyid, invid, datePurchased, quantityPurchased, totalPriceUSD)
-   VALUES('s01','i22','2014-12-03','50','90');
+   VALUES('s01','i22','2014-12-03','100','1000');
 
 INSERT INTO productsSupplied(supplyid, invid, datePurchased, quantityPurchased, totalPriceUSD)
-   VALUES('s01','i01','2014-12-03','50','90');
+   VALUES('s01','i01','2014-12-03','50','2500');
 
 INSERT INTO productsSupplied(supplyid, invid, datePurchased, quantityPurchased, totalPriceUSD)
-   VALUES('s01','i30','2014-12-03','50','90'); 
+   VALUES('s01','i30','2014-12-03','25','750'); 
 
 INSERT INTO productsSupplied(supplyid, invid, datePurchased, quantityPurchased, totalPriceUSD)
-   VALUES('s01','i07','2014-12-25','50','90');
+   VALUES('s01','i07','2014-12-25','45','2025');
 
 INSERT INTO productsSupplied(supplyid, invid, datePurchased, quantityPurchased, totalPriceUSD)
-   VALUES('s02','i10','2014-12-23','50','90');
+   VALUES('s02','i10','2014-12-23','60','2400');
 
 INSERT INTO productsSupplied(supplyid, invid, datePurchased, quantityPurchased, totalPriceUSD)
-   VALUES('s02','i02','2014-11-13','50','90');
+   VALUES('s02','i02','2014-11-13','15','750');
 
 INSERT INTO productsSupplied(supplyid, invid, datePurchased, quantityPurchased, totalPriceUSD)
-   VALUES('s02','i13','2014-1-01','50','90');
+   VALUES('s02','i13','2014-1-01','35','2275');
 
 INSERT INTO productsSupplied(supplyid, invid, datePurchased, quantityPurchased, totalPriceUSD)
-   VALUES('s02','i32','2014-11-02','50','90');
+   VALUES('s02','i32','2014-11-02','90','1350');
 
 INSERT INTO productsSupplied(supplyid, invid, datePurchased, quantityPurchased, totalPriceUSD)
-   VALUES('s03','i03','2014-11-03','50','90');
+   VALUES('s03','i03','2014-11-03','75','1500');
 
 INSERT INTO productsSupplied(supplyid, invid, datePurchased, quantityPurchased, totalPriceUSD)
-   VALUES('s03','i27','2014-12-01','50','90');
+   VALUES('s03','i27','2014-12-01','55','2475');
 
 INSERT INTO productsSupplied(supplyid, invid, datePurchased, quantityPurchased, totalPriceUSD)
-   VALUES('s03','i11','2014-12-02','50','90');
+   VALUES('s03','i11','2014-12-02','80','3600');
 
 select *
 from productsSupplied
@@ -567,13 +597,13 @@ from suppliers
 
 -- Product Orders --
 INSERT INTO productOrders(productOrderid, orderid, productid)
-  VALUES('pro1','001','pr2');
+  VALUES('pro1','001','pr02');
 
 INSERT INTO productOrders(productOrderid, orderid, productid)
-  VALUES('pro2','003','pr3');
+  VALUES('pro2','003','pr03');
 
 INSERT INTO productOrders(productOrderid, orderid, productid)
-  VALUES('pro3','002','pr9');  
+  VALUES('pro3','002','pr09');  
 
 INSERT INTO productOrders(productOrderid, orderid, productid)
   VALUES('pro4','004','pr17');
@@ -603,5 +633,98 @@ select *
 from productOrders
 
 
--- Views --
+-- Reports --
+	
+select prod.productName AS "Department", prod.productDescrip AS "Product Description", depart.departName AS "Department Name"
+from products prod, departments depart
+where prod.departid=depart.departid 				
+ORDER BY departName ASC;
+                        						
+						
+select depart.departid, depart.DepartName AS "Department Name"
+from productOrders prOr, products prod, departments depart
+where prOr.productid=prod.productid
+  and prod.departid=depart.departid 
+	GROUP BY depart.departid
+	ORDER BY count(departName) DESC
+ limit 2
+
+
+-- Employee View --
+CREATE VIEW EmployeeLocation as
+select distinct empA.eid AS "Employee ID" , depart.departName AS "Department Name", job.jobName AS "Job Title", job.JobDescrip AS "Job Description", departStore.departStoreName AS "Store Name", departStore.departState AS "Store Location"
+from employeeAssingments empA, departments depart, jobTitles job, departmentStores departStore
+where empA.departid=depart.departid
+  and empA.jobTitleid=job.jobTitleid
+  and depart.departStoreid = departStore.departStoreid
+
+-- Inventory View --
+CREATE VIEW InventoryView as
+select prod.productName AS "Product Name", prod.productid AS "Product ID", inventory.invid AS "Inventory ID", inventory.quantity AS "Inventory Quantity"
+from products prod, inventory, productsSupplied prodSup
+where prod.productid=inventory.productid 
+and inventory.invid=prodSup.invid	
+
+-- Stored Procedure --
+
+CREATE OR REPLACE FUNCTION updateInventories(integer) returns integer as 
+$$
+DECLARE 
+	supplyid          char(4) :=$1;
+	quantityPurchased integer :=$2;
+	totalPrice	  integer :=$3;
+BEGIN
+     IF supplyid is NULL or supplyid<0
+     THEN
+	return 0;
+     END IF;
+
+     SELECT
+	totalPrice = prodSup.quantityPurchased/prodSup.totalPrice;
+end;
+$$
+language plpgsql;    
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--Stored Procedure --
+
+--Trigger--
+
+CREATE OR REPLACE FUNCTION updateInventorys
+AFTER UPDATE ON inventory 
+FOR EACH ROW EXECUTE updateInventories
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
